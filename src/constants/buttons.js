@@ -3,7 +3,9 @@ export const ButtonType = {
     OPERATOR: 'operator',
     CLEAR: 'clear',
     EQUAL: 'equal',
-    FUNCTION: 'function'
+    FUNCTION: 'function',
+    SIGN_CHANGE: 'sign_change',
+    DOT: 'dot'
 }
 
 export const buttons = [
@@ -23,7 +25,7 @@ export const buttons = [
     { 'label': '2', 'type': ButtonType.NUMBER },
     { 'label': '3', 'type': ButtonType.NUMBER },
     { 'label': '=', 'type': ButtonType.EQUAL },
-    { 'label': '+/-', 'type': ButtonType.FUNCTION },
+    { 'label': '+/-', 'type': ButtonType.SIGN_CHANGE },
     { 'label': '0', 'type': ButtonType.NUMBER },
-    { 'label': '.', 'type': ButtonType.FUNCTION }
+    { 'label': '.', 'type': ButtonType.DOT }
 ]

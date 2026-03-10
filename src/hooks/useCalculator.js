@@ -3,6 +3,8 @@ import { useState } from "react"
 import { ButtonType } from "../constants/buttons"
 import { appendValue, isDisplayLimitReached, replaceOperator } from "../utils/calculatorLogic"
 
+const displayError = 'Error'
+
 export default function useCalculator() {
     const [displayValue, setDisplayValue] = useState('0')
     const [lastButtonType, setLastButtonType] = useState(null)
@@ -31,15 +33,36 @@ export default function useCalculator() {
     }
 
     function handleEval() {
+        if (lastButtonType === ButtonType.OPERATOR | lastButtonType === ButtonType.EQUAL) {
+            return
+        }
         try {
             const result = evaluate(displayValue)
             setDisplayValue(String(result))
         } catch {
-            setDisplayValue('Error')
+            setDisplayValue(displayError)
         }
     }
 
+    function handleSignChange() {
+        if (displayValue.at(0) === '-') {
+            setDisplayValue(displayValue.slice(1))
+        } else {
+            setDisplayValue('-' + displayValue)
+        }
+    }
+
+    function handleDot() {
+        if (isDisplayLimitReached(displayValue, '.')) {
+            return
+        }
+        setDisplayValue(prev => appendValue(prev, '.'))
+    }
+
     function handleButtonClick(button) {
+        if (displayValue === displayError) {
+            setDisplayValue('')
+        }
         const { label, type } = button
         switch (type) {
             case ButtonType.NUMBER:
@@ -54,6 +77,11 @@ export default function useCalculator() {
             case ButtonType.CLEAR:
                 handleClear()
                 break
+            case ButtonType.SIGN_CHANGE:
+                handleSignChange()
+                break
+            case ButtonType.DOT:
+                handleDot()
         }
         setLastButtonType(type)
     }
