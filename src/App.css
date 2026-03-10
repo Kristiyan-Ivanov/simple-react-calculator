@@ -1,5 +1,5 @@
 .Calculator {
-  width: 300px;
+  width: 280px;
   margin: 50px auto;
   text-align: center;
   border: 1px solid black;
@@ -11,26 +11,29 @@
 
 .Calculator__Header {
   display: flex;
-  align-items: center;
-  height: 50px;
+  align-items: flex-end;
+  height: 26px;
+  padding-top: 4px;
 }
 
 .Calculator__Header img{
-  width: 34px;
-  height: 34px;
+  width: 24px;
+  height: 24px;
 }
 
-.Calculator__Header h1{
-    margin-left: 5px;
-    font-size: 1.5rem;
+.Calculator__Title{
+    margin-left: 0px;
+    margin-block: 0;
+    margin-inline-start: 2px;
+    font-size: 1.2rem;
     color: whitesmoke;
 }
 
 .Calculator__Display {
   color: whitesmoke;
   padding: 10px;
-  font-size: 3rem;
-  margin-bottom: 10px;
+  padding-bottom: 20px;
+  font-size: 2.5rem;
   text-align: right;
   border-radius: 5px;
 }

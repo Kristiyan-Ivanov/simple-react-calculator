@@ -13,7 +13,7 @@ function Calculator() {
     <div className="Calculator">
       <div className='Calculator__Header'>
         <img src={calculatorIcon} alt="calculator icon" />
-        <h1>Calculator</h1>
+        <h1 className="Calculator__Title">Calculator</h1>
       </div>
       <Display value={displayValue} />
       <ButtonGrid buttons={buttons} onButtonClick={handleButtonClick} />
