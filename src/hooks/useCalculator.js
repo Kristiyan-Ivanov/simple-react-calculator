@@ -1,9 +1,10 @@
 import { evaluate } from "mathjs"
 import { useState } from "react"
 import { ButtonType } from "../constants/buttons"
-import { appendValue, isDisplayLimitReached, replaceOperator } from "../utils/calculatorLogic"
+import { appendValue, isDisplayLimitReached, replaceOperator, notEligibleForDot } from "../utils/calculatorLogic"
 
-const displayError = 'Error'
+const DISPLAY_ERROR = 'Error'
+const NEGATIVE_SIGN = '-'
 
 export default function useCalculator() {
     const [displayValue, setDisplayValue] = useState('0')
@@ -14,53 +15,62 @@ export default function useCalculator() {
             return
         }
         setDisplayValue(prev => appendValue(prev, button))
+        setLastButtonType(ButtonType.NUMBER)
     }
 
     function handleClear() {
         setDisplayValue('0')
-        setLastButtonType(null)
+        setLastButtonType(ButtonType.CLEAR)
     }
 
     function handleOperator(operator) {
-        if (isDisplayLimitReached(displayValue, operator)) {
+        if (isDisplayLimitReached(displayValue, operator) | displayValue === '0') {
             return
         }
-        if (lastButtonType === ButtonType.OPERATOR) {
+        if (displayValue.at(-1) === '.') {
+            setDisplayValue(prev => prev.slice(0, -1))
+        }
+        if (lastButtonType === ButtonType.OPERATOR | lastButtonType === ButtonType.EQUAL) {
             setDisplayValue(prev => replaceOperator(prev, operator))
         } else {
             setDisplayValue(prev => appendValue(prev, operator))
         }
+        setLastButtonType(ButtonType.OPERATOR)
     }
 
-    function handleEval() {
+    function handleEval(start=0, end=displayValue.length) {
         if (lastButtonType === ButtonType.OPERATOR | lastButtonType === ButtonType.EQUAL) {
             return
         }
         try {
-            const result = evaluate(displayValue)
+            const result = evaluate(displayValue.slice(start, end))
             setDisplayValue(String(result))
         } catch {
-            setDisplayValue(displayError)
+            setDisplayValue(DISPLAY_ERROR)
         }
     }
 
     function handleSignChange() {
-        if (displayValue.at(0) === '-') {
+        if (displayValue === '0' | displayValue === DISPLAY_ERROR) {
+            return
+        }
+        if (displayValue.at(0) === NEGATIVE_SIGN) {
             setDisplayValue(displayValue.slice(1))
         } else {
-            setDisplayValue('-' + displayValue)
+            setDisplayValue(NEGATIVE_SIGN + displayValue)
         }
     }
 
-    function handleDot() {
-        if (isDisplayLimitReached(displayValue, '.')) {
+    function handleDot(label) {
+        if (isDisplayLimitReached(displayValue, label) | notEligibleForDot(displayValue) | lastButtonType !== ButtonType.NUMBER) {
             return
         }
-        setDisplayValue(prev => appendValue(prev, '.'))
+        setDisplayValue(displayValue + label)
+        setLastButtonType(ButtonType.DOT)
     }
 
     function handleButtonClick(button) {
-        if (displayValue === displayError) {
+        if (displayValue === DISPLAY_ERROR) {
             setDisplayValue('')
         }
         const { label, type } = button
@@ -81,10 +91,9 @@ export default function useCalculator() {
                 handleSignChange()
                 break
             case ButtonType.DOT:
-                handleDot()
+                handleDot(label)
         }
-        setLastButtonType(type)
     }
-    
+
     return { displayValue, handleButtonClick }
 }
