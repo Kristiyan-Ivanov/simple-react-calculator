@@ -1,5 +1,6 @@
 
-const MAX_DISPLAY_LENGTH = 12
+const MAX_DISPLAY_LENGTH = 31
+const MAX_DIGITS = 15
 const DOT = '.'
 const ZERO = '0'
 
@@ -8,6 +9,11 @@ export function isDisplayLimitReached(displayValue, label) {
         return true
     }
     return false
+}
+
+export function isMaximumDigitsReached(displayValue) {
+    const lastNumber = getLastNumber(displayValue)
+    return lastNumber.length >= MAX_DIGITS
 }
 
 export function appendValue(displayValue, label) {

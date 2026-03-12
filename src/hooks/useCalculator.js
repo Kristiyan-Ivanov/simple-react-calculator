@@ -1,7 +1,7 @@
 import { evaluate } from "mathjs"
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import { ButtonType } from "../constants/buttons"
-import { appendValue, isDisplayLimitReached, replaceOperator, notEligibleForDot } from "../utils/calculatorLogic"
+import { appendValue, isDisplayLimitReached, replaceOperator, notEligibleForDot, isMaximumDigitsReached } from "../utils/calculatorLogic"
 
 const DISPLAY_ERROR = 'Error'
 const NEGATIVE_SIGN = '-'
@@ -9,9 +9,15 @@ const NEGATIVE_SIGN = '-'
 export default function useCalculator() {
     const [displayValue, setDisplayValue] = useState('0')
     const [lastButtonType, setLastButtonType] = useState(null)
+    const [error_code, setErrorCode] = useState(null)
+    const clearError = useCallback(() => setErrorCode(null), [])
 
     function handleNumberButton(button) {
         if (isDisplayLimitReached(displayValue, button)) {
+            return
+        }
+        if (isMaximumDigitsReached(displayValue)) {
+            setErrorCode('MAX_DIGITS')
             return
         }
         setDisplayValue(prev => appendValue(prev, button))
@@ -24,13 +30,13 @@ export default function useCalculator() {
     }
 
     function handleOperator(operator) {
-        if (isDisplayLimitReached(displayValue, operator) | displayValue === '0') {
+        if (isDisplayLimitReached(displayValue, operator) || displayValue === '0') {
             return
         }
         if (displayValue.at(-1) === '.') {
             setDisplayValue(prev => prev.slice(0, -1))
         }
-        if (lastButtonType === ButtonType.OPERATOR | lastButtonType === ButtonType.EQUAL) {
+        if (lastButtonType === ButtonType.OPERATOR || lastButtonType === ButtonType.EQUAL) {
             setDisplayValue(prev => replaceOperator(prev, operator))
         } else {
             setDisplayValue(prev => appendValue(prev, operator))
@@ -38,8 +44,8 @@ export default function useCalculator() {
         setLastButtonType(ButtonType.OPERATOR)
     }
 
-    function handleEval(start=0, end=displayValue.length) {
-        if (lastButtonType === ButtonType.OPERATOR | lastButtonType === ButtonType.EQUAL) {
+    function handleEval(start = 0, end = displayValue.length) {
+        if (lastButtonType === ButtonType.OPERATOR || lastButtonType === ButtonType.EQUAL) {
             return
         }
         try {
@@ -51,7 +57,7 @@ export default function useCalculator() {
     }
 
     function handleSignChange() {
-        if (displayValue === '0' | displayValue === DISPLAY_ERROR) {
+        if (displayValue === '0' || displayValue === DISPLAY_ERROR) {
             return
         }
         if (displayValue.at(0) === NEGATIVE_SIGN) {
@@ -62,7 +68,7 @@ export default function useCalculator() {
     }
 
     function handleDot(label) {
-        if (isDisplayLimitReached(displayValue, label) | notEligibleForDot(displayValue) | lastButtonType !== ButtonType.NUMBER) {
+        if (isDisplayLimitReached(displayValue, label) || notEligibleForDot(displayValue) || lastButtonType !== ButtonType.NUMBER) {
             return
         }
         setDisplayValue(displayValue + label)
@@ -95,5 +101,5 @@ export default function useCalculator() {
         }
     }
 
-    return { displayValue, handleButtonClick }
+    return { displayValue, handleButtonClick, error_code, clearError }
 }

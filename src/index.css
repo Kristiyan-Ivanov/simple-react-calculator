@@ -7,3 +7,10 @@
 body {
   background: #727272;
 }
+
+:root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
