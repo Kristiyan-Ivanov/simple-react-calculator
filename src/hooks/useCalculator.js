@@ -14,6 +14,7 @@ export default function useCalculator() {
 
     function handleNumberButton(button) {
         if (isDisplayLimitReached(displayValue, button)) {
+            setErrorCode('MAX_DISPLAY')
             return
         }
         if (isMaximumDigitsReached(displayValue)) {
