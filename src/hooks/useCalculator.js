@@ -51,10 +51,17 @@ export default function useCalculator() {
         }
         try {
             const result = evaluate(displayValue.slice(start, end))
+            if (String(result) === "Infinity" || String(result) === "-Infinity") {
+                setDisplayValue(DISPLAY_ERROR)
+                setErrorCode('DIV_BY_ZERO')
+                return
+            }
             setDisplayValue(String(result))
         } catch {
             setDisplayValue(DISPLAY_ERROR)
         }
+
+
     }
 
     function handleSignChange() {
@@ -99,6 +106,7 @@ export default function useCalculator() {
                 break
             case ButtonType.DOT:
                 handleDot(label)
+                break
         }
     }
 
