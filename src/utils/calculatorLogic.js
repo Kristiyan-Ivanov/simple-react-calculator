@@ -3,6 +3,7 @@ const MAX_DISPLAY_LENGTH = 31
 const MAX_DIGITS = 15
 const DOT = '.'
 const ZERO = '0'
+const OPERATOR_REGEX = /[+*/-]/
 
 export function isDisplayLimitReached(displayValue, label) {
     if (displayValue.length + label.length > MAX_DISPLAY_LENGTH) {
@@ -30,5 +31,9 @@ export function notEligibleForDot(displayValue) {
 }
 
 export function getLastNumber(displayValue) {
-    return displayValue.split(/[+*/-]/).at(-1)
+    return displayValue.split(OPERATOR_REGEX).at(-1)
+}
+
+export function numberCount(displayValue) {
+    return displayValue.split(OPERATOR_REGEX).length
 }
