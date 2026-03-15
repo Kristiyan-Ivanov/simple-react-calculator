@@ -5,12 +5,13 @@ export const ButtonType = {
     EQUAL: 'equal',
     FUNCTION: 'function',
     SIGN_CHANGE: 'sign_change',
-    DOT: 'dot'
+    DOT: 'dot',
+    PERCENT: 'percent'
 }
 
 export const buttons = [
     { 'label': 'AC', 'type': ButtonType.CLEAR },
-    { 'label': '%', 'type': ButtonType.OPERATOR },
+    { 'label': '%', 'type': ButtonType.PERCENT },
     { 'label': '/', 'type': ButtonType.OPERATOR },
     { 'label': '*', 'type': ButtonType.OPERATOR },
     { 'label': '7', 'type': ButtonType.NUMBER },

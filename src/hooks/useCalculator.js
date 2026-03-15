@@ -45,12 +45,12 @@ export default function useCalculator() {
         setLastButtonType(ButtonType.OPERATOR)
     }
 
-    function handleEval(start = 0, end = displayValue.length) {
+    function handleEval() {
         if (lastButtonType === ButtonType.OPERATOR || lastButtonType === ButtonType.EQUAL) {
             return
         }
         try {
-            const result = evaluate(displayValue.slice(start, end))
+            const result = evaluate(displayValue)
             if (String(result) === "Infinity" || String(result) === "-Infinity") {
                 setDisplayValue(DISPLAY_ERROR)
                 setErrorCode('DIV_BY_ZERO')
@@ -106,6 +106,10 @@ export default function useCalculator() {
                 break
             case ButtonType.DOT:
                 handleDot(label)
+                break
+            case ButtonType.PERCENT:
+                setDisplayValue(prev => appendValue(prev, '%'))
+                setLastButtonType(ButtonType.PERCENT)
                 break
         }
     }
