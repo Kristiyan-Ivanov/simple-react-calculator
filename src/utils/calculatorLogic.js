@@ -22,6 +22,9 @@ export function appendValue(displayValue, label) {
 }
 
 export function replaceOperator(displayValue, operator) {
+    if (!OPERATOR_REGEX.test(displayValue.at(-1))) {
+        return appendValue(displayValue, operator)
+    }
     return displayValue.slice(0, -1) + operator
 }
 
