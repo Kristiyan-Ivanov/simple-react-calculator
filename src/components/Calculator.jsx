@@ -1,8 +1,8 @@
-import calculatorIcon from '../assets/calculator.png'
-import useCalculator from '../hooks/useCalculator'
+import calculatorIcon from '@/assets/calculator.png'
+import useCalculator from '@/hooks/useCalculator'
 import Display from './Display'
 import ButtonGrid from './ButtonsGrid'
-import { buttons } from '../constants/buttons'
+import { buttons } from '@/constants/buttons'
 import ErrorNotification from './ErrorNotification'
 
 

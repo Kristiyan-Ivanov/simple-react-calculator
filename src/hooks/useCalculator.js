@@ -1,6 +1,6 @@
 import { evaluate } from "mathjs"
 import { useCallback, useState } from "react"
-import { ButtonType } from "../constants/buttons"
+import { ButtonType } from "@/constants/buttons"
 import {
   appendValue,
   isDisplayLimitReached,
@@ -8,7 +8,7 @@ import {
   notEligibleForDot,
   isMaximumDigitsReached,
   numberCount
-} from "../utils/calculatorLogic"
+} from "@/utils/calculatorLogic"
 
 const DISPLAY_ERROR = 'Error'
 const NEGATIVE_SIGN = '-'

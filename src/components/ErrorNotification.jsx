@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import ErrorType from "../constants/errors"
+import ErrorType from "@/constants/errors"
 
 function ErrorNotification({ error_code, onTimeout }) {
   const message = ErrorType[error_code] || null

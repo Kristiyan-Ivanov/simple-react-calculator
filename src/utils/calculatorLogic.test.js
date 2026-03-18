@@ -1,5 +1,5 @@
-import { expect, test, describe } from "vitest";
 import * as logic from "./calculatorLogic";
+import { describe, test, expect } from "vitest";
 
 const longDisplayValue = "1234567890123456789012345678901"; // 31 characters
 const shortDisplayValue = "12345"; // 5 characters
