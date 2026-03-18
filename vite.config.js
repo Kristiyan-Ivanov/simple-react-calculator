@@ -9,7 +9,7 @@ export default defineConfig({
     environment: 'jsdom',
     threads: true,
     testTimeout: 5000,
-    setupFiles: './src/test/setup.js',
+    setupFiles: './tests/setup.js',
   },
   resolve: {
     alias: {

@@ -1,4 +1,4 @@
-import * as logic from './calculatorLogic';
+import * as logic from '@/utils/calculatorLogic';
 import { describe, test, expect } from 'vitest';
 
 const longDisplayValue = '1234567890123456789012345678901'; // 31 characters
