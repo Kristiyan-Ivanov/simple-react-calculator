@@ -1,8 +1,7 @@
-
 const fontSizes = {
   10: 2.5,
-  15: 2
-}
+  15: 2,
+};
 
 function retrieveFontSize(displayValue) {
   const length = displayValue.length;
@@ -16,22 +15,25 @@ function retrieveFontSize(displayValue) {
 
 function splitValue(value) {
   if (value.length > 20) {
-    return value.replace(/(.{20})/g, "$1\n");
+    return value.replace(/(.{20})/g, '$1\n');
   }
   return value;
 }
 
 function formatThousands(value) {
-  return value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
 function Display({ value }) {
-  let formatedValue = splitValue(formatThousands(value))
+  let formatedValue = splitValue(formatThousands(value));
   return (
-    <div className="Calculator__Display" style={{ fontSize: retrieveFontSize(formatedValue) + 'rem' }}>
+    <div
+      className="Calculator__Display"
+      style={{ fontSize: retrieveFontSize(formatedValue) + 'rem' }}
+    >
       {formatedValue}
     </div>
-  )
+  );
 }
 
 export default Display;
